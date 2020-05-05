@@ -21,33 +21,39 @@ class Node():
 class LinkedList():
     def __init__(self, x):
         self.head = x
-        self.next = None
         #self.insert(x)
 
-    def insert(self, x):
+    def _insert(self, x):
         node = Node(x)
         node.next = self.head
         self.head = node
 
+    def __repr__(self):
+        cur = self.head
+        arr = []
+        while cur:
+            arr.append(cur.val)
+            cur = cur.next
+        return " ".join(map(str,arr))
 
 def listOfDepths(root, lists, level):
     if root is None:
         return
     # check if the level exists in lists, if not create
     if len(lists) == level:
-        list = LinkedList(None)
-        lists.append(list)
+        list_ = LinkedList(None)
+        lists.append(list_)
     else:
-        list = lists[level]
+        list_ = lists[level]
 
-    list.insert(root.node)
+    list_._insert(root.node)
 
     listOfDepths(root.left, lists, level+1)
     listOfDepths(root.right, lists, level+1)
 
 
 def MakeLinkedListsOfDepths(root):
-    lists = [[]]
+    lists = [LinkedList(None)]
     listOfDepths(root, lists, 0)
     return lists
 
